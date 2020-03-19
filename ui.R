@@ -21,17 +21,17 @@ navbarPage("Coviz - Covid19 in NZ", id="nav",
                                       highcharter::highchartOutput('ncase_counts'),
                                       shiny::hr(),
 
-                                      highcharter::highchartOutput('age_counts'),
+                                      highcharter::highchartOutput('age_counts')
 
-
-
-
-                                      selectInput("color", "Color", vars),
-                                      selectInput("size", "Size", vars, selected = "adultpop"),
-                                      conditionalPanel("input.color == 'superzip' || input.size == 'superzip'",
-                                                       # Only prompt for threshold when coloring or sizing by superzip
-                                                       numericInput("threshold", "SuperZIP threshold (top n percentile)", 5)
-                                      )
+#
+#
+#
+#                                       selectInput("color", "Color", vars),
+#                                       selectInput("size", "Size", vars, selected = "adultpop"),
+#                                       conditionalPanel("input.color == 'superzip' || input.size == 'superzip'",
+#                                                        # Only prompt for threshold when coloring or sizing by superzip
+#                                                        numericInput("threshold", "SuperZIP threshold (top n percentile)", 5)
+#                                       )
 
 
                         ),

@@ -17,6 +17,9 @@ nz_regions_simp$REGC2017_NAME = gsub(" Region", "", nz_regions_simp$REGC2017_NAM
 
 
 last_updated = lubridate::round_date(file.info('data/cleaned_cases.rds')$mtime, unit= 'hour')
+first_data_point = as.Date('2020-02-23')
+
+
 
 population_2018_census <- read_csv("data/population-2018-census.csv")
 
@@ -74,11 +77,3 @@ age_cases = clean_cases %>%
   arrange(Age)
 
 
-# Choices for drop-downs
-vars <- c(
-  "Is SuperZIP?" = "superzip",
-  "Centile score" = "centile",
-  "College education" = "college",
-  "Median income" = "income",
-  "Population" = "adultpop"
-)
