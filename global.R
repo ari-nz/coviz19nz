@@ -1,19 +1,22 @@
 
-library(leaflet)
-library(highcharter)
-library(RColorBrewer)
-library(scales)
-library(lattice)
-library(dplyr)
-library(sf)
+library("leaflet")
+library("highcharter")
+library("RColorBrewer")
+library("scales")
+library("lattice")
+library("dplyr")
+library("sf")
 library("rvest")
-library(readr)
+library("readr")
+library("lubridate")
 
 # nz_regions = sf::st_read('nz-regions.gpkg', quiet = TRUE)
 # nz_regions_simple = rmapshaper::ms_simplify(nz_regions, 0.001)
 nz_regions_simp = sf::st_read('data/nz_regions_1pc.gpkg', quiet = TRUE, stringsAsFactors = FALSE)
 nz_regions_simp$REGC2017_NAME = gsub(" Region", "", nz_regions_simp$REGC2017_NAME)
 
+
+last_updated = lubridate::round_date(file.info('data/cleaned_cases.rds')$mtime, unit= 'hour')
 
 population_2018_census <- read_csv("data/population-2018-census.csv")
 
@@ -50,8 +53,25 @@ case_locations = nz_regions_simp %>%
 
 
 
+dated_cases = clean_cases %>%
+  dplyr::arrange(date_of_arrival) %>%
+  tidyr::replace_na(list(date_of_arrival = as.Date(last_updated))) %>%
+  dplyr::mutate(person = 1) %>%
+  dplyr::group_by(date_of_arrival) %>%
+  dplyr::summarise(persons = sum(person)) %>%
+  tidyr::complete(date_of_arrival = seq(date_of_arrival[1], Sys.Date(), by = "1 day")) %>%
+  tidyr::replace_na(list(persons = 0)) %>%
+  dplyr::mutate(cum_count = cumsum(persons)) %>%
+  tidyr::fill(date_of_arrival)
 
 
+age_cases = clean_cases %>%
+  dplyr::group_by(Age) %>%
+  dplyr::summarise(n = n()) %>%
+  dplyr::mutate(Age = dplyr::case_when(Age == "Teens" ~ "10s",
+                                       Age == "" ~ "Unknown",
+                                       TRUE ~ Age)) %>%
+  arrange(Age)
 
 
 # Choices for drop-downs

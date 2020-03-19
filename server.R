@@ -4,8 +4,11 @@ server = function(input,output,session){
 
   output$map <- renderLeaflet({
 
+
+    # colors <- viridis::viridis(n = 256, option = 'viridis')
+
     pal <- leaflet::colorNumeric(
-      palette = "viridis",
+      palette = 'viridis',
       domain = case_locations$count,
       na.color = NA,
       reverse = TRUE
@@ -34,12 +37,53 @@ server = function(input,output,session){
         pal = pal,
         values = ~count,
         title = "Number of Cases",
-        opacity = 1
+        opacity = 1,
+        # labFormat = labelFormat(transform = function(x) {sort(x, decreasing = TRUE)}),
+        className = "info legend maplegend"
+
+      )
+
+  })
+
+  output$ncase_counts = renderHighchart({
+
+
+
+     highcharter::highchart() %>%
+      hc_add_series(dated_cases, "line", hcaes(x = date_of_arrival , y = cum_count), name = "Cumulative Cases") %>%
+      hc_add_series(dated_cases, "column", hcaes(x = date_of_arrival , y = persons), name = "# of Cases") %>%
+      hc_add_theme(hc_theme_smpl()) %>%
+      hc_xAxis(labels = list(format = '{value:%b %d}')) %>%
+      hc_yAxis(allowDecimals = FALSE) %>%
+      hc_title(
+        text = "Covid-19 cases over time"
+      ) %>%
+      hc_tooltip(crosshairs = TRUE, shared = TRUE,
+                 headerFormat = "<b>{point.x:%B %d}</b><br />"
+                 # pointFormat = "x: {point.x:%B:%d} <br> y: {point.y}"
       )
 
   })
 
 
+
+
+  output$age_counts = renderHighchart({
+
+
+
+     highcharter::highchart() %>%
+      hc_add_series(age_cases, "column", hcaes(x = Age , y = n), name = "# of Cases") %>%
+      hc_add_theme(hc_theme_smpl()) %>%
+      hc_xAxis(categories = age_cases$Age) %>%
+      hc_yAxis(allowDecimals = FALSE) %>%
+      hc_title(
+        text = "Covid-19 cases by age"
+      ) %>%
+      hc_tooltip(crosshairs = TRUE) %>%
+      hc_colors("#2980b9")
+
+  })
 
 
 

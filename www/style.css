@@ -25,7 +25,7 @@ h1, h2, h3, h4 { font-weight: 400; }
   padding: 0 20px 20px 20px;
   cursor: move;
   /* Fade out while not hovering */
-  opacity: 0.65;
+  opacity: 0.75;
   zoom: 0.9;
   transition: opacity 500ms 1s;
 }
@@ -51,4 +51,12 @@ h1, h2, h3, h4 { font-weight: 400; }
 
 #nav {
   display: none;
+}
+
+
+.maplegend.leaflet-control.info {
+  margin-bottom: 50px!important;
+/*
+ transform: translateX(-5%) translateY(2%) rotate(180deg);
+*/
 }
