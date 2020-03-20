@@ -15,7 +15,7 @@ navbarPage("Coviz - Covid19 in NZ", id="nav",
 
                         # Shiny versions prior to 0.11 should use class = "modal" instead.
                         absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
-                                      draggable = TRUE, top = 90, left = "auto", right = 50, bottom = "auto",
+                                      draggable = FALSE, top = 60, left = "auto", right = 50, bottom = "auto",
                                       width = 450, height = "auto",
 
                                       highcharter::highchartOutput('ncase_counts'),

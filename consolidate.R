@@ -22,7 +22,7 @@ clean_cases = cases %>%
   dplyr::mutate(date_of_arrival = stringr::str_extract(`Travel details`, "\\d{1,2}(th)? (January|February|March|April|May|June|July|August|September|October|November|December)")) %>%
   dplyr::mutate(date_of_arrival = gsub("th", "", date_of_arrival)) %>%
   dplyr::mutate(date_of_arrival = paste0(date_of_arrival, " 2020")) %>%
-  dplyr::mutate(date_of_arrival = lubridate::dmy(temp$date_of_arrival))
+  dplyr::mutate(date_of_arrival = lubridate::dmy(date_of_arrival))
 
 saveRDS(clean_cases, 'data/cleaned_cases.rds')
 

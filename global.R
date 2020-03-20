@@ -1,10 +1,15 @@
 
 library("leaflet")
+library("leafpop")
+library("rlang")
+library("vctrs")
 library("highcharter")
 library("RColorBrewer")
 library("scales")
 library("lattice")
 library("dplyr")
+library("shiny")
+library("tidyr")
 library("sf")
 library("rvest")
 library("readr")
@@ -39,6 +44,7 @@ mapping_loc = tibble::tribble(
   , "Waikato"       , "Waikato"
   , "Canterbury"    , "Canterbury"
   , "Wellington"    , "Wellington"
+  , "Hawkes Bay"    , "Hawke's Bay"
 )
 
 
@@ -77,3 +83,4 @@ age_cases = clean_cases %>%
   arrange(Age)
 
 
+source('func.R')
